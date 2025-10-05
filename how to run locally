@@ -1,3 +1,6 @@
+PRE REQUISITES
+===============
+
 1. Minikube or Local Kubernetes Cluster
 Minikube installed and running on your machine.
 Install Minikube
