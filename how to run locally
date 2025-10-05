@@ -1,0 +1,138 @@
+1. Minikube or Local Kubernetes Cluster
+Minikube installed and running on your machine.
+Install Minikube
+Alternatively, any local Kubernetes cluster (e.g., Kind, k3s).
+
+
+2. kubectl Installed
+Install kubectl
+Must be configured to access your Minikube cluster.
+
+
+3. Node.js 22.x Installed
+Download Node.js
+Confirm with:
+bash
+node --version
+Should show
+v22.x.x
+.
+
+
+4. Your Script File
+Save the Turbotic script as
+code.js
+(or any name) on your computer.
+
+
+5. OpenAI API Key
+Get an OpenAI API key
+Required for summarization and suggestions.
+
+
+6. Environment Variables
+You need to set:
+KUBE_API_SERVER
+(Kubernetes API server URL)
+KUBE_TOKEN
+(Bearer token for authentication)
+OPENAI_API_KEY
+(Your OpenAI API key)
+
+
+7. Internet Access
+Required for the script to call OpenAI’s API.
+
+8. (Optional) Git Installed
+If you want to version control or upload to GitHub.
+Install Git
+9. (Optional) Text Editor
+VS Code, Sublime, or any editor to view/edit your script.
+10. (Optional) npm Packages
+The script as written does not require any npm packages (uses built-in
+fetch
+in Node.js 22.x).
+If you use a
+.env
+file, you may want to install
+dotenv
+:
+bash
+npm install dotenv
+
+
+
+
+
+
+Here’s a step-by-step guide to run your Node.js script manually against a Minikube (or similar local Kubernetes) cluster:
+
+1. Start Minikube
+If not already running:
+
+minikube start
+2. Get Kubernetes API Server URL
+Run:
+
+kubectl config view --minify -o jsonpath='{.clusters[0].cluster.server}'
+Copy the output 
+
+(e.g.,
+https://127.0.0.1:32771
+) and use it as
+KUBE_API_SERVER
+.
+
+3. Get Bearer Token
+Run:
+
+kubectl config view --minify -o jsonpath='{.users[0].user.token}'
+Copy the output and use it as
+KUBE_TOKEN
+.
+
+4. Get OpenAI API Key
+Get your OpenAI API key from your OpenAI account and use it as
+OPENAI_API_KEY
+.
+
+5. Save Your Script
+Save your Turbotic script as
+code.js
+in a folder on your computer.
+
+6. Set Environment Variables
+You can set environment variables in your shell before running the script:
+
+export KUBE_API_SERVER=https://127.0.0.1:32771
+export KUBE_TOKEN=your_actual_token_here
+export OPENAI_API_KEY=your_openai_key_here
+Or, you can create a
+.env
+file and use a package like
+dotenv
+(optional).
+
+7. Run the Script
+Make sure you have Node.js 22.x installed.
+
+Run:
+
+node code.js
+8. Troubleshooting
+If you get SSL errors, your script already sets
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+to ignore self-signed certificates.
+If you get “Unauthorized,” double-check your token and API server URL.
+If you get “ECONNREFUSED,” make sure Minikube is running and the API server is accessible.
+9. View Output
+The script will print logs to the console.
+It will generate a file named
+problematic_pods_report.json
+in the same folder.
+Summary of Steps:
+
+Start Minikube
+Get API server URL and token
+Set environment variables
+Run the script with Node.js
